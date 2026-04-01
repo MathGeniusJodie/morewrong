@@ -182,7 +182,7 @@ ol>li::marker{
 }
 
 .post-time {
-  min-width: 2.5ch;
+  min-width: 3.5ch;
   text-align: center;
   font-size: 0.9em;
   color: rgba(0, 0, 0, 0.6);
