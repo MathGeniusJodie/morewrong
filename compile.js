@@ -272,23 +272,29 @@ function generateRSS() {
     language: "en",
     pubDate: new Date(),
   });
+
+  const items = [];
   files.forEach((file) => {
     const content = fs.readFileSync(file, "utf8");
     const { attributes, body } = frontMatter(content);
-    if (attributes.date === "NA") {
-      return;
-    }
+    if (attributes.date === "NA") return;
+    items.push({ attributes, body, file });
+  });
+
+  items.sort((a, b) => new Date(b.attributes.date) - new Date(a.attributes.date));
+
+  items.forEach(({ attributes, body, file }) => {
+    const articleId = file.replace(/\.md$/, "").replace(/.*\//, "");
     feed.item({
       title: attributes.title,
-      description: body,
-      url: `https://morewrong.org/#${file
-        .replace(/\.md$/, "")
-        .replace(/.*\//, "")}`,
+      description: marked(body),
+      url: `https://morewrong.org/#${articleId}`,
       author: attributes.author,
-      date: attributes.date,
-      guid: file.replace(/\.md$/, "").replace(/.*\//, ""),
+      date: new Date(attributes.date),
+      guid: `https://morewrong.org/#${articleId}`,
     });
   });
+
   const xml = feed.xml({ indent: true });
   fs.writeFileSync(path.join(__dirname, "feed.xml"), xml, "utf8");
   console.log("RSS feed generated: feed.xml");
