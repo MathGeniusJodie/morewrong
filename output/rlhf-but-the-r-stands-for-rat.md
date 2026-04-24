@@ -3,7 +3,7 @@ title: |-
   RLHF but the R Stands for Rat
                  
 author: MesaOptimouse
-date: 2025-04-19
+date: 2026-04-26
 comments:
   - author: AcausalCheeseWhisperer
     content: >-
